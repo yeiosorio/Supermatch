@@ -1,0 +1,25 @@
+<div class="container">
+
+	<section>
+		<article>
+			<div class="card-container">
+				<div class="content">
+					<h2>Super Match News</h2>
+					<div class="card-container">
+						<a class="card" [routerLink]="['/newsDetail', item.id]" *ngFor="let item of news">
+							<p class="card__title">NUEVA RASPADITA | RASPADITA CAR ONE</p>
+							<p class="card__date"><small>09/06/2021</small></p>
+							<div class="card__content">
+								<div class="card__description">
+									{{item.content}}
+								</div>
+								<img src="https://labanca-production.s3.amazonaws.com/uploads/notice/171/imagen_titulo/normal_logo-16.png" class="card__img"/>
+							</div>
+						</a>
+					</div>
+				</div>
+			
+			</div>
+		</article>
+</section>
+</div>
