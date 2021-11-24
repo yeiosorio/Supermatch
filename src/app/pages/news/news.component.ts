@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Payload, InewsResponse } from '../../models/interfaces';
 import { NewsService } from '../../services/news.service';
-
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
@@ -14,11 +13,12 @@ export class NewsComponent implements OnInit, OnDestroy, Payload {
   constructor(private newsService: NewsService) {}
 
   ngOnInit(): void {
+    
     this.data = sessionStorage.getItem("news");
 
     console.log(this.data)
     const newsSession = this.data != null ? JSON.parse(this.data) : '' ;
-      this.news = newsSession
+    this.news = newsSession
 
     //Solo se solicitan los datos a la API si esta vacio el sessionStorage
     // if (newsSession == '') {
