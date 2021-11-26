@@ -1,3 +1,3 @@
 export const CONFIGS = {
-    endpointnews: "https://www3.labanca.com.uy/noticias"
+    endpointnews: "https://labanca.dev.crux-games.com/noticias"
 }

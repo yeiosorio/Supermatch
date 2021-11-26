@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InewsResponse } from 'src/app/models/interfaces';
 import { NewsService } from '../../services/news.service';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,7 +12,9 @@ import Swal from 'sweetalert2';
 })
 export class NewsDetailComponent implements OnInit {
   idNews: number = 0
-  newsDetail: any
+  newsDetail: any;
+  querySubscription: Subscription = new Subscription;
+  deleteSubscription: Subscription = new Subscription;
   
   constructor(route: ActivatedRoute, private router: Router, private newsService: NewsService) {
     route.params.subscribe(params => {
@@ -22,7 +25,7 @@ export class NewsDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.newsService.querySessionNews().subscribe(news => {
+    this.querySubscription = this.newsService.querySessionNews().subscribe(news => {
       this.newsDetail = news.find(item => this.idNews == item.id);
       console.log(this.newsDetail);
     })
@@ -42,8 +45,8 @@ export class NewsDetailComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        this.newsService.querySessionNews().subscribe(news => {
-          this.newsService.deleteService(news, this.idNews).subscribe(res => {
+        this.querySubscription = this.newsService.querySessionNews().subscribe(news => {
+          this.deleteSubscription = this.newsService.deleteService(news, this.idNews).subscribe(res => {
             Swal.fire(
               'Deleted!',
               'The News has been deleted.',
@@ -56,6 +59,11 @@ export class NewsDetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.querySubscription.unsubscribe();
+    this.deleteSubscription.unsubscribe();
   }
 
 }
