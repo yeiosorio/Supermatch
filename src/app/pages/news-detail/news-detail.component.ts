@@ -53,13 +53,9 @@ export class NewsDetailComponent implements OnInit {
               this.router.navigate(['/']);
             }, 2000);
           });
-          
-        })
-        
+        });
       }
-      
     });
-   
   }
 
 }

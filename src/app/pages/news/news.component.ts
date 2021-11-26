@@ -18,12 +18,12 @@ export class NewsComponent implements OnInit, OnDestroy, Payload {
 
     console.log(this.data)
     const newsSession = this.data != null ? JSON.parse(this.data) : '' ;
-    this.news = newsSession
-
+    
     //Solo se solicitan los datos a la API si esta vacio el sessionStorage
     if (newsSession == '') {
       this.newsList();
     }else {
+      this.news = newsSession
     }
   }
 
