@@ -21,10 +21,10 @@ export class NewsComponent implements OnInit, OnDestroy, Payload {
     this.news = newsSession
 
     //Solo se solicitan los datos a la API si esta vacio el sessionStorage
-    // if (newsSession == '') {
-    //   this.newsList();
-    // }else {
-    // }
+    if (newsSession == '') {
+      this.newsList();
+    }else {
+    }
   }
 
   newsList(): void {

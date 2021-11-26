@@ -1,0 +1,31 @@
+<div class="container">
+
+	<section>
+		<article>
+			<div class="header">
+                <div class="header__content">
+                    <p>{{newsDetail.titulo}}</p>
+                    <h5>{{newsDetail.subtitulo}}</h5>
+                    <small>{{newsDetail.created_at | date}}</small>
+                </div>
+            </div>
+			<div class="content">
+                <div class="newsInfo">
+                    <div>
+                        <img [src]="newsDetail.imagen_titulo?.url" class="newsInfo__img">
+                    </div>
+                    <div class="description_wrap">
+                        <p class="newsInfo__description">{{newsDetail.content}}</p>
+                    </div>
+                    <div>
+                        <button class="newsInfo__modifed" (click)="deleteNews();">Delete</button>
+                    </div>
+                    <div>
+                        <button class="newsInfo__delete">Update</button>
+                    </div>
+                </div>
+            </div>
+		</article>
+    </section>
+
+</div>

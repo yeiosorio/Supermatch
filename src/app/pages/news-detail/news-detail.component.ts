@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InewsResponse } from 'src/app/models/interfaces';
+import { NewsService } from '../../services/news.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,35 +11,26 @@ import Swal from 'sweetalert2';
 })
 export class NewsDetailComponent implements OnInit {
   idNews: number = 0
-  data: null | string = null
-  news: Array<InewsResponse> = [];
-  newsFilter: Array<InewsResponse> = [];
-  newsDetail: InewsResponse | undefined;
+  newsDetail: any
   
-  constructor(route: ActivatedRoute) {
+  constructor(route: ActivatedRoute, private router: Router, private newsService: NewsService) {
     route.params.subscribe(params => {
       console.log(params.id)
       this.idNews = params.id
     });
+
   }
 
   ngOnInit(): void {
-
-    this.data = sessionStorage.getItem("news");
-    this.news = this.data != null ? JSON.parse(this.data) : '' ;
-    this.newsDetail = this.news.find(item => this.idNews == item.id)
-    console.log(this.newsDetail)
-
-    this.deleteNews()
+    this.newsService.querySessionNews().subscribe(news => {
+      this.newsDetail = news.find(item => this.idNews == item.id);
+      console.log(this.newsDetail);
+    })
 
   }
 
-  async deleteNews(): Promise<void> {
+  deleteNews(): void {
 
-    this.data = sessionStorage.getItem("news");
-    this.news = this.data != null ? JSON.parse(this.data) : '' ;
-    this.newsFilter = await this.news.filter(item => this.idNews != item.id)
-   
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -49,13 +41,25 @@ export class NewsDetailComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
+
+        this.newsService.querySessionNews().subscribe(news => {
+          this.newsService.deleteService(news, this.idNews).subscribe(res => {
+            Swal.fire(
+              'Deleted!',
+              'The News has been deleted.',
+              'success'
+            );
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 2000);
+          });
+          
+        })
+        
       }
-    })
+      
+    });
+   
   }
 
 }
